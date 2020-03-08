@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
-struct complex_no
+/*struct complex_no
 {
     int re;
     int im;
@@ -67,7 +67,9 @@ int ishermitian(struct complex_no **a, int n)
         return 0;
     }
 }
+*/
 
+//ignore all the complex number stuff, I'll get around to that bit later - hrishit
 int sqr_size=4;
 void transpose(int **a, int n)
 {
