@@ -21,19 +21,20 @@ COMPLEX conjugate(struct complex_no a)
     return a_con;
 }
 
-// struct complex_no** comp_transpose(struct complex_no **a, int n)
-// {
-//     int temp;
-//     for (int i=0; i<n; i++)
-//     {
-//         for (int j=0; j<i; j++)
-//         {
-//            temp = *(*(a+i)+j);
-//            *(*(a+i)+j)=*(*(a+j)+i);
-//            *(*(a+j)+i)=temp;
-//         }
-//     }
-// }
+COMPLEX** comp_transpose(COMPLEX** a, int n)
+{
+    COMPLEX temp;
+    for (int i=0; i<n; i++)
+    {
+        for (int j=0; j<i; j++)
+        {
+           temp = *(*(a+i)+j);
+           *(*(a+i)+j)=*(*(a+j)+i);
+           *(*(a+j)+i)=temp;
+        }
+    }
+    return a;
+}
 
 // int ishermitian(struct complex_no **a, int n)
 // {
@@ -137,8 +138,6 @@ int determinant(int **a, int n)
     return res;
 }
 
-
-
 int main()
 {
     COMPLEX **arr = (COMPLEX**)malloc(sqr_size * sizeof(COMPLEX*));
@@ -156,8 +155,20 @@ int main()
     }
     for (int i=0; i<sqr_size; i++)
     {
-        for (int j=0; j<sqr_size; j++)
-        {
+        for (int j=0; j<sqr_size; j++){
+     
+            printf("%d + %di\t", arr[i][j].re, arr[i][j].im);
+        }
+        printf("\n");
+    }
+
+    printf("\n");
+
+    COMPLEX** tpose = comp_transpose(arr, sqr_size);
+	for (int i=0; i<sqr_size; i++)
+    {
+        for (int j=0; j<sqr_size; j++){
+     
             printf("%d + %di\t", arr[i][j].re, arr[i][j].im);
         }
         printf("\n");
