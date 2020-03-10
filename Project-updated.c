@@ -142,12 +142,15 @@ int main()
 {
     COMPLEX **arr = (COMPLEX**)malloc(sqr_size * sizeof(COMPLEX*));
 
-    for(int i = 0; i < sqr_size ; i++){
+    for(int i = 0; i < sqr_size ; i++)
+    {
         arr[i] = (COMPLEX*)malloc(sqr_size * sizeof(COMPLEX));
     }
 
-    for(int i = 0 ; i < sqr_size ; i++){
-        for(int j = 0 ; j < sqr_size ; j++){
+    for(int i = 0 ; i < sqr_size ; i++)
+    {
+        for(int j = 0 ; j < sqr_size ; j++)
+	{
             arr[i][j].re = cmp(i, j).re;
             arr[i][j].im = cmp(i, j).im;
         }
@@ -155,8 +158,8 @@ int main()
     }
     for (int i=0; i<sqr_size; i++)
     {
-        for (int j=0; j<sqr_size; j++){
-     
+        for (int j=0; j<sqr_size; j++)
+	{
             printf("%d + %di\t", arr[i][j].re, arr[i][j].im);
         }
         printf("\n");
@@ -165,10 +168,10 @@ int main()
     printf("\n");
 
     COMPLEX** tpose = comp_transpose(arr, sqr_size);
-	for (int i=0; i<sqr_size; i++)
+    for (int i=0; i<sqr_size; i++)
     {
-        for (int j=0; j<sqr_size; j++){
-     
+        for (int j=0; j<sqr_size; j++)
+	{
             printf("%d + %di\t", arr[i][j].re, arr[i][j].im);
         }
         printf("\n");
