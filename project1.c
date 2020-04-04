@@ -5,17 +5,17 @@ typedef struct complex_no{
     int re;
     int im;
 } COMPLEX;
-/*
+
 COMPLEX cmp(int a, int b){
     COMPLEX x = {a, b};
     return x;
 }
-*/
+
 COMPLEX conjugate(struct complex_no a)
 {
     struct complex_no a_con;
     a_con.re=a.re;
-    a_con.im=a.im;
+    a_con.im=0-a.im;
     return a_con;
 }
 
@@ -73,7 +73,7 @@ int ishermitian(COMPLEX **a, int n)
     }
 }
 
-int sqr_size = 3;
+//int sqr_size = 3;
 void transpose (int **a, int n)
 {
     int temp;
