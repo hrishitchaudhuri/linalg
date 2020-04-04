@@ -62,15 +62,15 @@ int ishermitian(COMPLEX **a, int n)
         }
     }
 
-    if (hermit==a)
+    for (int i=0; i<n; i++)
     {
-        return 1;
+        for (int j=0; j<n; j++)
+        {
+            if a[i][j]!=hermit[i][j] return 0;
+        }
     }
 
-    else
-    {
-        return 0;
-    }
+    return 1;
 }
 
 //int sqr_size = 3;
