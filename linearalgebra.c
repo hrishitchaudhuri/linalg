@@ -2,50 +2,53 @@
 #include<stdlib.h>
 #include"linearalgebra.h"
 
-//1)Program for dot product, cross product, scalar triple product, vector triple product, cartesian to polar
-//User entered values for conversion from cartesian to polar and vice versa
+//All values required below are user-inputed.
 
-//Function to create and return a vector
+/*1)Programs for Vector Operations*/
+
+    //Function to create and return a vector
 Vector createvector(float i,float j,float k)
 {
     Vector a={i,j,k};
     return a;
 }
 
-//Function to find dot product of two vectors
+    //Function to find dot product of two vectors
 float dotProduct(Vector a, Vector b)
 {
     return a.i*b.i+a.j*b.j+a.k*b.k;
 }
 
-//Function to find cross product of two vectors
+    //Function to find cross product of two vectors
 Vector crossProduct(Vector a,Vector b)
 {
     Vector c = {a.j*b.k - a.k*b.j, a.k*b.i - a.i*b.k, a.i*b.j - a.j*b.i};
     return c;
 }
 
-//Function to find scalar triple product of 3 vectors
+    //Function to find scalar triple product of 3 vectors
 float scalarTripleProduct(Vector a,Vector b,Vector c)
 {
     return dotProduct(a,crossProduct(b,c));
 }
 
-//Function to find vector triple product of 3 vectors
+    //Function to find vector triple product of 3 vectors
 Vector vectorTripleProduct(Vector a,Vector b,Vector c)
 {
     return crossProduct(a,crossProduct(b,c));
 }
 
-//Function to print a vector
+    //Function to print a vector
 void printVector(Vector a)
 {
-    printf("( %f, %f, %f)",a.i,a.j,a.k);
+    printf("< %f, %f, %f>",a.i,a.j,a.k);
 }
 
-//2)Complex numbers,matrices and determinants
 
-//Function for finding conjugate of a complex number
+
+/*2) Programs for Operations on Complex Numbers and Arrays of Complex Numbers.*/
+
+    //Function for finding conjugate of a complex number
 COMPLEX conjugate(struct complex_no a)
 {
     struct complex_no a_con;
@@ -54,7 +57,7 @@ COMPLEX conjugate(struct complex_no a)
     return a_con;
 }
 
-//Function for transposing a complex matrix
+    //Function for transposing a complex matrix
 void comp_transpose (COMPLEX ** a, int n)
 {
     COMPLEX temp;
@@ -69,7 +72,7 @@ void comp_transpose (COMPLEX ** a, int n)
     }
 }
 
-//Function for checking if a complex matrix is hermitian or not
+    //Function for checking if a complex matrix is hermitian or not
 int ishermitian(COMPLEX **a, int n)
 {
     COMPLEX **hermit;
@@ -109,7 +112,7 @@ int ishermitian(COMPLEX **a, int n)
     return 1;
 }
 
-//Function for transposing integer 2D matrix
+    //Function for transposing integer 2D matrix
 void transpose (float **a, int n)
 {
     float temp;
@@ -125,7 +128,12 @@ void transpose (float **a, int n)
 }
 
 
-//Function for finding cofactor of an array,**a is source matrix,**b is source pointer
+
+/*3) Programs on Operations on Integers Arrays and Integer Matrices*/
+
+    //Function for finding cofactor of an array
+        //**a --> source matrix
+        //**b --> cofactor matrix
 void cofactor (int **a, int **b, int i, int j, int n)
 {
     int row = 0, col = 0;
@@ -147,7 +155,7 @@ void cofactor (int **a, int **b, int i, int j, int n)
     }
 }
 
-//Function for finding determinant of an array
+    //Function for finding determinant of an array
 int determinant (int **a, int n)
 {
     int res = 0;
@@ -175,8 +183,10 @@ int determinant (int **a, int n)
     return res;
 }
 
-//Array matrix to which the inverse is assigned
-void matrix_inverse (int **a, int n, float **cof_matrix2)
+    //Function to find inverse of an array
+        //**a --> pointer to the source matrix
+        //**inv --> pointer to inverse matrix
+void matrix_inverse (int **a, int n, float **inv)
 {
     int d = determinant (a, sqr_size);
     int det_sign = 1;
@@ -195,22 +205,24 @@ void matrix_inverse (int **a, int n, float **cof_matrix2)
         {
             cofactor (a, cof_matrix1, i, j, n);
             res = det_sign * determinant (cof_matrix1, sqr_size-1);
-            cof_matrix2[i][j] = (float) res;
+            inv[i][j] = (float) res;
             det_sign = 0 - det_sign;
         }
     }
-    transpose (cof_matrix2, sqr_size);
+    transpose (inv, sqr_size);
 
     for (int i = 0; i < sqr_size; i++)
     {
         for (int j = 0; j < sqr_size; j++)
         {
-            cof_matrix2[i][j] = (float) cof_matrix2[i][j]/(float) d;
+            inv[i][j] = (float) inv[i][j]/(float) d;
         }
     }
 }
 
-//Function for matrix multiplication,first two arguments are the arrays to be multiplied,third argument is the product
+    //Function for matrix multiplication
+        //**mult1, **mult2 --> pointers to the multiplicand and the multiplier matrices.
+        //**prod --> pointer to the product matrix. 
 void matrix_multiplication(int **mult1, float **mult2, float **prod, int n)
 {
     for (int i = 0; i < n; i++)
@@ -227,8 +239,12 @@ void matrix_multiplication(int **mult1, float **mult2, float **prod, int n)
 }
 
 
-//3)Simultaneous equations
-//Function for solving a system of linear equations by cramers rule
+/*4) Program to Solve a System of Simultaneous Linear Equations*/
+
+    //Cramer's Rule: An explicit formula for the solving of linear equations; primarily useful in mesh analysis. Hence, 
+    //the notations here are typical of electrical engineering analysis, where **res --> pointer to the resistance matric
+    //and *vol --> pointer to the voltage matrix. 
+
 float *cramer(int **res, int *vol, int n)
 {
     int det=determinant(res, n);
@@ -241,7 +257,8 @@ float *cramer(int **res, int *vol, int n)
     {
         x[i]=malloc(n*sizeof(int));
     }
-
+    
+    //Base Case: If determinant of the resistance matrix == 0, then infinite solutions exist. 
     if (det==0)
     {
         printf("Infinite solutions");
