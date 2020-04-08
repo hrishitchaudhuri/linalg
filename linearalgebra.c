@@ -2,6 +2,17 @@
 #include<stdlib.h>
 #include"linearalgebra.h"
 
+typedef struct
+{
+    float i,j,k;
+}Vector;
+
+typedef struct complex_no
+{
+    int re;
+    int im;
+} COMPLEX ;
+
 //All values required below are user-inputed.
 
 /*1)Programs for Vector Operations*/
@@ -47,6 +58,12 @@ void printVector(Vector a)
 
 
 /*2) Programs for Operations on Complex Numbers and Arrays of Complex Numbers.*/
+
+COMPLEX cmp(int a, int b)
+{
+    COMPLEX x = {a, b};
+    return x;
+}
 
     //Function for finding conjugate of a complex number
 COMPLEX conjugate(struct complex_no a)
