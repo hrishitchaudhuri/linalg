@@ -2,62 +2,90 @@
 #include<stdlib.h>
 #include"linearalgebra.h"
 
-typedef struct
-{
-    float i,j,k;
-}Vector;
 
-typedef struct complex_no
-{
-    int re;
-    int im;
-} COMPLEX ;
 
 //All values required below are user-inputed.
 
 /*1)Programs for Vector Operations*/
 
     //Function to create and return a vector
-Vector createvector(float i,float j,float k)
+Vector createvector(int i,int j,int k)
 {
     Vector a={i,j,k};
     return a;
 }
 
-    //Function to find dot product of two vectors
-float dotProduct(Vector a, Vector b)
+void Read_Vector(Vector* V)
 {
-    return a.i*b.i+a.j*b.j+a.k*b.k;
+    int i1, j1, k1;
+    printf("Enter i-component of vector: ");
+    scanf("%d", &i1);
+    printf("Enter j-component of vector: ");
+    scanf("%d", &j1);
+    printf("Enter k-component of vector: ");
+    scanf("%d", &k1);
+    V->i=i1;
+    V->j=j1;
+    V->k=k1;
+}
+
+
+    //Function to find dot product of two vectors
+int dotProduct(Vector* a, Vector* b)
+{
+    return (a->i)*(b->i)+(a->j)*(b->j)+(a->k)*(b->k);
 }
 
     //Function to find cross product of two vectors
-Vector crossProduct(Vector a,Vector b)
+void crossProduct(Vector* a, Vector* b, Vector* c)
 {
-    Vector c = {a.j*b.k - a.k*b.j, a.k*b.i - a.i*b.k, a.i*b.j - a.j*b.i};
-    return c;
+    c->i = a->j*b->k - a->k*b->j;
+    c->j = a->k*b->i - a->i*b->k;
+    c->k = a->i*b->j - a->j*b->i;
 }
 
     //Function to find scalar triple product of 3 vectors
-float scalarTripleProduct(Vector a,Vector b,Vector c)
+int scalarTripleProduct(Vector* a,Vector* b,Vector* c)
 {
-    return dotProduct(a,crossProduct(b,c));
+    Vector* temp = malloc(sizeof(Vector));
+    crossProduct(b,c, temp);
+    int stp = dotProduct(a,temp);
+    free(temp);
+    return stp;
 }
 
     //Function to find vector triple product of 3 vectors
-Vector vectorTripleProduct(Vector a,Vector b,Vector c)
+void vectorTripleProduct(Vector* a,Vector* b,Vector* c, Vector* d)
 {
-    return crossProduct(a,crossProduct(b,c));
+    Vector* temp = malloc(sizeof(Vector));
+    crossProduct(b,c, temp);
+    crossProduct(a,temp, d);
+    free(temp);
 }
 
     //Function to print a vector
 void printVector(Vector a)
 {
-    printf("< %f, %f, %f>",a.i,a.j,a.k);
+    printf("< %d, %d, %d>",a.i,a.j,a.k);
 }
 
 
 
 /*2) Programs for Operations on Complex Numbers and Arrays of Complex Numbers.*/
+void Read_cmpMat(COMPLEX **a, int n)
+{
+    int r, ima;
+    for (int i=0; i<n; i++)
+    {
+        for (int j=0; j<n; j++)
+        {
+            printf("Enter real part: "); scanf("%d", &r);
+            printf("Enter imaginary part: "); scanf("%d", &ima);
+            printf("\n");
+            a[i][j].re = r; a[i][j].im = ima;
+        }
+    }
+}
 
 COMPLEX cmp(int a, int b)
 {
@@ -65,6 +93,15 @@ COMPLEX cmp(int a, int b)
     return x;
 }
 
+void disp_cmpMat(COMPLEX** a, int n)
+{
+    for (int i=0; i<n; i++)
+    {
+        for (int j=0; j<n; j++)
+            printf("%d + %di\t", a[i][j].re, a[i][j].im);
+        printf("\n");
+    }
+}
     //Function for finding conjugate of a complex number
 COMPLEX conjugate(struct complex_no a)
 {
@@ -90,16 +127,8 @@ void comp_transpose (COMPLEX ** a, int n)
 }
 
     //Function for checking if a complex matrix is hermitian or not
-int ishermitian(COMPLEX **a, int n)
+int ishermitian(COMPLEX **a, int n, COMPLEX** hermit)
 {
-    COMPLEX **hermit;
-    hermit = malloc(n*sizeof(COMPLEX *));
-
-    for (int i=0; i<n; i++)
-    {
-        hermit[i] = malloc(n*sizeof(COMPLEX));
-    }
-
     for (int i=0; i<n; i++)
     {
             for (int j=0; j<n; j++)
@@ -122,12 +151,51 @@ int ishermitian(COMPLEX **a, int n)
     {
         for (int j=0; j<n; j++)
         {
-            if (a[i][j].re!=hermit[i][j].re && a[i][j].im != hermit[i][j].im) {return 0;}
+            if (a[i][j].re!=hermit[i][j].re && a[i][j].im != hermit[i][j].im) return 0;
         }
     }
 
+
     return 1;
 }
+
+
+/*3) Programs on Operations on Integers Arrays and Integer Matrices*/
+
+void Read_intMat(int **a, int n)
+{
+    int r;
+    for (int i=0; i<n; i++)
+    {
+        for (int j=0; j<n; j++)
+        {
+            printf("Enter array element: ");
+            scanf("%d", &r);
+            a[i][j]=r;
+        }
+    }
+}
+
+void disp_intMat(int** a, int n)
+{
+    for (int i=0; i<n; i++)
+    {
+        for (int j=0; j<n; j++)
+            printf("%d\t", a[i][j]);
+        printf("\n");
+    }
+}
+
+void disp_floatMat(float **inv,int n)
+{
+    for (int i=0; i<n; i++)
+    {
+        for (int j=0; j<n; j++)
+            printf("%.2f\t", inv[i][j]);
+        printf("\n");
+    }
+}
+
 
     //Function for transposing integer 2D matrix
 void transpose (float **a, int n)
@@ -143,10 +211,6 @@ void transpose (float **a, int n)
         }
     }
 }
-
-
-
-/*3) Programs on Operations on Integers Arrays and Integer Matrices*/
 
     //Function for finding cofactor of an array
         //**a --> source matrix
@@ -205,7 +269,7 @@ int determinant (int **a, int n)
         //**inv --> pointer to inverse matrix
 void matrix_inverse (int **a, int n, float **inv)
 {
-    int d = determinant (a, sqr_size);
+    int d = determinant (a, n);
     int det_sign = 1;
     int res = 0;
     int **cof_matrix1;
@@ -221,16 +285,16 @@ void matrix_inverse (int **a, int n, float **inv)
         for (int j = 0; j < n; j++)
         {
             cofactor (a, cof_matrix1, i, j, n);
-            res = det_sign * determinant (cof_matrix1, sqr_size-1);
+            res = det_sign * determinant (cof_matrix1, n-1);
             inv[i][j] = (float) res;
             det_sign = 0 - det_sign;
         }
     }
-    transpose (inv, sqr_size);
+    transpose (inv, n);
 
-    for (int i = 0; i < sqr_size; i++)
+    for (int i = 0; i < n; i++)
     {
-        for (int j = 0; j < sqr_size; j++)
+        for (int j = 0; j < n; j++)
         {
             inv[i][j] = (float) inv[i][j]/(float) d;
         }
@@ -239,7 +303,7 @@ void matrix_inverse (int **a, int n, float **inv)
 
     //Function for matrix multiplication
         //**mult1, **mult2 --> pointers to the multiplicand and the multiplier matrices.
-        //**prod --> pointer to the product matrix. 
+        //**prod --> pointer to the product matrix.
 void matrix_multiplication(int **mult1, float **mult2, float **prod, int n)
 {
     for (int i = 0; i < n; i++)
@@ -258,15 +322,13 @@ void matrix_multiplication(int **mult1, float **mult2, float **prod, int n)
 
 /*4) Program to Solve a System of Simultaneous Linear Equations*/
 
-    //Cramer's Rule: An explicit formula for the solving of linear equations; primarily useful in mesh analysis. Hence, 
+    //Cramer's Rule: An explicit formula for the solving of linear equations; primarily useful in mesh analysis. Hence,
     //the notations here are typical of electrical engineering analysis, where **res --> pointer to the resistance matric
-    //and *vol --> pointer to the voltage matrix. 
+    //and *vol --> pointer to the voltage matrix.
 
-float *cramer(int **res, int *vol, int n)
+void cramer(int **res, int *vol, float *sol, int n)
 {
     int det=determinant(res, n);
-    float *sol;
-    sol=malloc(n*sizeof(float));
 
     int **x;
     x=malloc(n*sizeof(int *));
@@ -274,8 +336,8 @@ float *cramer(int **res, int *vol, int n)
     {
         x[i]=malloc(n*sizeof(int));
     }
-    
-    //Base Case: If determinant of the resistance matrix == 0, then infinite solutions exist. 
+
+    //Base Case: If determinant of the resistance matrix == 0, then infinite solutions exist.
     if (det==0)
     {
         printf("Infinite solutions");
@@ -303,5 +365,5 @@ float *cramer(int **res, int *vol, int n)
         }
     }
 
-    return sol;
+    free(x);
 }
