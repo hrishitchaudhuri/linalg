@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include"linearalgebra.h"
+#include"lina.h"
 
 
 
