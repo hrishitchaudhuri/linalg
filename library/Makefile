@@ -8,4 +8,4 @@ lina.o: src/lina.c src/lina.h
 	gcc -c src/lina.c src/lina.h
 
 clean:
-	rm a.out lina.o example.o
+	rm a.out lina.o example.o src/lina.h.gch
