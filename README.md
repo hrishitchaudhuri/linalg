@@ -1,6 +1,5 @@
 # LinAlg
 
-<br/>
 ### 1. Using LinAlg
 <br/> LinAlg is an implementation of basic linear algebra functions written in C. Right now, the code contains functions written for basic vector operations, real and complex matrix operations, and Cramer's rule for solving systems of linear equations.
 
@@ -16,6 +15,6 @@ To use LinAlg, import the `library/src` files and follow the syntax to import th
 Boom. That's it. Oh, just, uh, remember to clean up afterward so your working directory doesn't get TOO messy. <br/>
 `make clean` <br/>
 
-<br/>
+<br/><br/>
 ### 3. Future Work + Issues
 <br/>If you find any issues in the executable code, feel free to raise them under the Issues tab. As for future work, we'll be looking at more complicated linear algebra operations and keep updating this repository as we find them. Someday, we might even provide documentation! Keep your fingers crossed :)
