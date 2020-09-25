@@ -9,11 +9,18 @@ To use LinAlg, import the `library/src` files and follow the syntax to import th
 <br/><br/>
 ### 2. What's in LinAlg?
 <br/> We've provided you with an example file to see the available operations. To run the example file, cd into the `library` folder like so: <br/>
-`cd library/` <br/>
+```
+cd library/
+``` 
 <br/>and run the Makefile: <br/>
-`make` <br/> <br/>
+```
+make
+``` 
 Boom. That's it. Oh, just, uh, remember to clean up afterward so your working directory doesn't get TOO messy. <br/>
-`make clean` <br/>
+```
+make clean
+```
+
 
 <br/><br/>
 ### 3. Future Work + Issues
