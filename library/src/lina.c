@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<math.h>
 #include<stdlib.h>
 #include"lina.h"
 
@@ -12,6 +13,12 @@
 Vector createvector(int i,int j,int k)
 {
     Vector a={i,j,k};
+    return a;
+}
+    //Function to create and return a vector of doubles
+dVector create_dvector(double i,double j,double k)
+{
+    dVector a={i,j,k};
     return a;
 }
 
@@ -28,7 +35,22 @@ void Read_Vector(Vector* V)
     V->j=j1;
     V->k=k1;
 }
+    //Return largest element in vector of doubles
+double max(dVector dv)
+{
+    double temp = dv.i > dv.j? dv.i: dv.j;
+    double res = temp>dv.k? temp: dv.k;
+    return res;   
+}
 
+    //Scale the vector of doubles by dividing all elements by the max value
+dVector scale(dVector dv, double maxx)
+{
+    dv.i /= maxx;
+    dv.j /= maxx;
+    dv.k /= maxx;
+    return dv;
+}
 
     //Function to find dot product of two vectors
 int dotProduct(Vector* a, Vector* b)
@@ -66,9 +88,13 @@ void vectorTripleProduct(Vector* a,Vector* b,Vector* c, Vector* d)
     //Function to print a vector
 void printVector(Vector a)
 {
-    printf("< %d, %d, %d>",a.i,a.j,a.k);
+    printf("< %d, %d, %d>\n",a.i,a.j,a.k);
 }
-
+    //Function to print a vector of doubles
+void print_dVector(dVector dv)
+{
+    printf("<%.3lf, %.3lf, %.3lf>\n", dv.i, dv.j, dv.k);
+}
 
 
 /*2) Programs for Operations on Complex Numbers and Arrays of Complex Numbers.*/
@@ -366,4 +392,56 @@ void cramer(int **res, int *vol, float *sol, int n)
     }
 
     free(x);
+}
+
+dVector vect_mat_multiplication(dVector v, double** mat)
+{
+    dVector result = create_dvector(0.0, 0.0, 0.0);
+    int idx;
+    result.i = (mat[0][0]*v.i + mat[0][1]*v.j + mat[0][2]*v.k);
+    result.j = (mat[1][0]*v.i + mat[1][1]*v.j + mat[1][2]*v.k);
+    result.k = (mat[2][0]*v.i + mat[2][1]*v.j + mat[2][2]*v.k);
+
+    return result;
+}
+
+/*5) Program to compute dominant eigenvalues and eigenvectors for a 3x3 matrix using Rayleigh's Power Method*/
+
+    //Function to check if the Iterative process has converged or not
+    //eps is a small constant 
+int has_converged(dVector x0, dVector x1)
+{
+    double eps = 1e-5;
+    if(fabs(x0.i - x1.i) <= eps && fabs(x0.j - x1.j) <= eps && fabs(x0.k - x1.k <= eps))
+        return 1;
+    else
+        return 0;
+}
+
+    //Function to carry out iterative Rayleigh's Power Method computation
+void rpm(double** A)
+{
+    dVector x0 = create_dvector(1.0, 1.0, 1.0);
+    dVector x1;
+    double maxx = 0.0;
+    int iter = 1;
+    while(1)
+    {
+        x1 = vect_mat_multiplication(x0, A);
+        //print_dVector(x0);
+        maxx = max(x1);
+        x1 = scale(x1, maxx);
+        //print_dVector(x1);
+        if(has_converged(x0, x1))
+            break;
+        else
+        {
+            x0 = x1;
+        }
+        printf("ITER %d\n",iter);
+        iter++;
+    }
+    printf("Dominant Eigenvector:");
+    print_dVector(x1);
+    printf("Dominant Eigenvalue: %.3lf\n", maxx);
 }
