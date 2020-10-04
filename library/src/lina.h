@@ -71,3 +71,9 @@ void matrix_multiplication(int **mult1, float **mult2, float **prod, int n);
 dVector vect_mat_multiplication(dVector v, double** mat);  //3*3 matrix multiplied by 3*1 vector
 
 void cramer(int **res, int *vol, float *sol, int n);
+
+double* for_sub(int*, double*, double**, int);
+
+double* bac_sub(double**, double*, int);
+
+double* lup_sol(double**, double**, int*, double*, int);
