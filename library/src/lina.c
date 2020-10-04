@@ -476,11 +476,8 @@ double* bac_sub(double** U, double* y, int n) {
 
     double cnt=0;
     for (register int i=n-1; i>=0; i--) {
-        for (register int j=i+1; j<n; j++) {
+        for (register int j=i+1; j<n; j++)
             cnt+=(double)(((float)U[i][j]) * ((float)x[j]));
-            printf(" U[I][J]: %lf  x[J]: %lf ", U[i][j], x[j]);
-            printf("cnt: %lf ", cnt);
-        }
         x[i] = (double) (y[i]-cnt)/U[i][i];
         cnt=0;
     }
@@ -494,9 +491,6 @@ double* lup_sol(double** L, double** U, int* P, double* B, int n) {
     double* y=for_sub(P, B, L, n);
     double* x=bac_sub(U, y, n);
 
-    for (register int i=0; i<n; i++)
-        printf("%lf ", y[i]);
-    printf("\n\n");
     free(y);
     return x;
 }
