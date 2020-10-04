@@ -445,3 +445,58 @@ void rpm(double** A)
     print_dVector(x1);
     printf("Dominant Eigenvalue: %.3lf\n", maxx);
 }
+
+/* 6. Solving systems of linear equations using LUP Decomposition */
+
+    // Returns the forward substitution vector.
+double* for_sub(int* P, double* b, double** L, int n) {
+    // NOTE: P, the permutation matrix, is compactly represented.
+    
+    double* y;
+    y=(double*)malloc(sizeof(double)*n);
+
+    double cnt=0;
+    for (register int i=0; i<n; i++) {
+        for (register int j=0; j<i; j++)
+            cnt+=(L[i][j]*y[j]);
+        y[i]=b[P[i]]-cnt;
+        cnt=0;
+    }
+
+    printf("\n\n");
+
+    return y;
+}
+
+
+    // Returns the back substituted vector
+double* bac_sub(double** U, double* y, int n) {
+    double* x;
+    x=(double*)malloc(sizeof(double)*n);
+
+    double cnt=0;
+    for (register int i=n-1; i>=0; i--) {
+        for (register int j=i+1; j<n; j++) {
+            cnt+=(double)(((float)U[i][j]) * ((float)x[j]));
+            printf(" U[I][J]: %lf  x[J]: %lf ", U[i][j], x[j]);
+            printf("cnt: %lf ", cnt);
+        }
+        x[i] = (double) (y[i]-cnt)/U[i][i];
+        cnt=0;
+    }
+
+    return x;
+}
+
+
+    // Return solution to linear equation system, provided its LUP decomposition.
+double* lup_sol(double** L, double** U, int* P, double* B, int n) {
+    double* y=for_sub(P, B, L, n);
+    double* x=bac_sub(U, y, n);
+
+    for (register int i=0; i<n; i++)
+        printf("%lf ", y[i]);
+    printf("\n\n");
+    free(y);
+    return x;
+}
