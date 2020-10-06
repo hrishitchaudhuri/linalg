@@ -131,7 +131,7 @@ int ishermitian(COMPLEX **a, int n, COMPLEX** hermit)
 {
     for (int i=0; i<n; i++)
     {
-            for (int j=0; j<n; j++)
+        for (int j=0; j<n; j++)
         {
             *(*(hermit+i)+j)=*(*(a+i)+j);
         }
@@ -154,7 +154,6 @@ int ishermitian(COMPLEX **a, int n, COMPLEX** hermit)
             if (a[i][j].re!=hermit[i][j].re && a[i][j].im != hermit[i][j].im) return 0;
         }
     }
-
 
     return 1;
 }
@@ -261,6 +260,7 @@ int determinant (int **a, int n)
         res += (det_sign * (*(*(a + 0) + j)) * determinant (cof_matrix, n - 1));
         det_sign = 0 - det_sign;
     }
+ 
     return res;
 }
 
